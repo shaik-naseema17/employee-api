@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express'
 connectToDatabase()
 import salaryRouter from './routes/salary.js'

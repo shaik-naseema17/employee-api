@@ -1,19 +1,35 @@
-import User from "./models/User.js"
-import bcrypt from 'bcrypt'
-import connectToDatabase from "./db/db.js"
-const userRegister=async()=>{
-    connectToDatabase()
-    try{
-        const hashPassword=await bcrypt.hash("admin",10)
-        const newUser=new User({
-            name:"Admin",
-            email:"admin@gmail.com",
-            password:hashPassword,
-            role:"admin"
-        })
-        await newUser.save()
-    }catch(error){
-        console.log(error)
+import dotenv from 'dotenv';
+dotenv.config();
+
+import bcrypt from 'bcrypt';
+import connectToDatabase from './db/db.js';
+import User from './models/User.js';
+
+const userRegister = async () => {
+    await connectToDatabase();
+
+    try {
+        const existingUser = await User.findOne({ email: 'admin@gmail.com' });
+
+        if (existingUser) {
+            console.log('Admin user already exists. Skipping creation.');
+            return;
+        }
+
+        const hashedPassword = await bcrypt.hash('admin', 10);
+
+        const newUser = new User({
+            name: 'Admin',
+            email: 'admin@gmail.com',
+            password: hashedPassword,
+            role: 'admin'
+        });
+
+        await newUser.save();
+        console.log('Admin user created successfully');
+    } catch (error) {
+        console.error('Error creating admin user:', error);
     }
-}
+};
+
 userRegister();
