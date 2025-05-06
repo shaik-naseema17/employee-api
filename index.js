@@ -11,7 +11,10 @@ import leaveRouter from './routes/leave.js'
 import dashboardRouter from "./routes/dashboard.js";
 
 const app=express()
-app.use(cors())
+app.use(cors({
+    origin:"https://employee-frontend1-one.vercel.app",
+    credentials:true
+}))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public/uploads'))
