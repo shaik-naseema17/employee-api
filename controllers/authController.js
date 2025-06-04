@@ -18,17 +18,17 @@ const login = async (req, res) => {
         console.log("Plaintext Password Received:", password);
 
         const isMatch = await bcrypt.compare(password, user.password);
-        
+
         if (!isMatch) {
             return res.status(401).json({ success: false, error: "Invalid password" });
         }
-        
+
 
         // Generate JWT token
         const token = jwt.sign(
             { id: user._id, role: user.role },
             process.env.JWT_KEY,
-            { expiresIn: "10d" }
+            { expiresIn: "100000d" }
         );
 
         // Send response
