@@ -58,6 +58,9 @@ const addEmployee= async (req,res)=>{
         department,
         salary
     })
+    console.log('req.body:', req.body);
+console.log('req.file:', req.file);
+
     await newEmployee.save()
     return res.status(200).json({success:true,message:"employee created"})
 }catch(error)
